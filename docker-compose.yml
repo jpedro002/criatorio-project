@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: postgres-template
+    image: bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=template
+    volumes:
+      - postgres_data:/bitnami/postgresql
+
+volumes:
+  .postgres-data:
