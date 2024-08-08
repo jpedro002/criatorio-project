@@ -6,3 +6,70 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Gender {
+  f
+  m
+}
+
+model Bird {
+  id          Int       @id @default(autoincrement())
+  ring        String    @unique
+  name        String
+  gender      Gender
+  father      String
+  mother      String
+  birth       DateTime
+  visible     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  genealogyId Int       @unique
+  genealogy   Genealogy @relation(fields: [genealogyId], references: [id])
+
+  @@map("birds")
+}
+
+model Genealogy {
+  id                             Int      @id @default(autoincrement())
+  paternalGrandfather            String?
+  paternalGrandmother            String?
+  maternalGrandfather            String?
+  maternalGrandmother            String?
+  paternalGreatGrandfather1      String?
+  paternalGreatGrandmother1      String?
+  paternalGreatGrandfather2      String?
+  paternalGreatGrandmother2      String?
+  maternalGreatGrandfather1      String?
+  maternalGreatGrandmother1      String?
+  maternalGreatGrandfather2      String?
+  maternalGreatGrandmother2      String?
+  paternalGreatGreatGrandfather1 String?
+  paternalGreatGreatGrandmother1 String?
+  paternalGreatGreatGrandfather2 String?
+  paternalGreatGreatGrandmother2 String?
+  paternalGreatGreatGrandfather3 String?
+  paternalGreatGreatGrandmother3 String?
+  paternalGreatGreatGrandfather4 String?
+  paternalGreatGreatGrandmother4 String?
+  maternalGreatGreatGrandfather1 String?
+  maternalGreatGreatGrandmother1 String?
+  maternalGreatGreatGrandfather2 String?
+  maternalGreatGreatGrandmother2 String?
+  maternalGreatGreatGrandfather3 String?
+  maternalGreatGreatGrandmother3 String?
+  maternalGreatGreatGrandfather4 String?
+  maternalGreatGreatGrandmother4 String?
+  createdAt                      DateTime @default(now())
+  updatedAt                      DateTime @updatedAt
+  bird                           Bird?
+
+  @@map("genealogies")
+}

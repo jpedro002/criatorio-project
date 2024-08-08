@@ -1,17 +1,19 @@
-version: "3"
+version: '3.8'
 
 services:
-  postgres:
-    container_name: postgres-template
+  postgresql:
     image: bitnami/postgresql:latest
-    ports:
-      - '5432:5432'
+    container_name: postgresql
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=template
+
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=criatorio-nj
+    ports:
+      - "5432:5432"
     volumes:
-      - postgres_data:/bitnami/postgresql
+      - postgresql_data:/bitnami/postgresql
 
 volumes:
-  .postgres-data:
+  postgresql_data:
+    driver: local
