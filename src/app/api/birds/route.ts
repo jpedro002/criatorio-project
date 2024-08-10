@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
 		const response = await db.bird.findMany({
 			where: {
 				gender: gender[0],
+				visible: true,
 			},
 			orderBy: {
 				createdAt: 'asc',
