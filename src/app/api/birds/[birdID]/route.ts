@@ -21,6 +21,7 @@ export async function PUT(
 		})
 
 		revalidateTag('birds')
+		revalidateTag('genealogy' + birdID)
 
 		return Response.json({ success: true })
 	} catch (error) {
