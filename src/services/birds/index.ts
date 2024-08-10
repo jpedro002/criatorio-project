@@ -1,8 +1,9 @@
+import { Prisma } from '@prisma/client'
+import { toast } from 'sonner'
+
 import { GetBirdsReturnType } from '@/server-actions/crudTree'
 
 import { api } from '../api'
-import { Prisma } from '@prisma/client'
-import { toast } from 'sonner'
 
 interface BirdsResponseSuccess {
 	birds: GetBirdsReturnType[]

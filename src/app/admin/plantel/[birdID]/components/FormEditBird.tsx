@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Prisma } from '@prisma/client'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -10,7 +11,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { updateBird } from '@/services/birds'
-import { Prisma } from '@prisma/client'
 
 export interface FormEditBirdProps extends Prisma.BirdGetPayload<{}> {
 	birdID: string

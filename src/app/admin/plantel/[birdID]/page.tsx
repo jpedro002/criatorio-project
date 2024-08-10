@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation'
 
+import { fetchGenealogy } from '@/services/genealogy'
+
 import { FormEditBird, FormEditBirdProps } from './components/FormEditBird'
 import { FormGenealogy, GenealogyFormProps } from './components/FormGenealogy'
-import { fetchGenealogy } from '@/services/genealogy'
 
 const GenealogyForm = async ({ params }: { params: { birdID: string } }) => {
 	const { bird, genealogy, message } = await fetchGenealogy(params.birdID)
