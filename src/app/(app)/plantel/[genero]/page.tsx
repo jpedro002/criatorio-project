@@ -11,8 +11,6 @@ import { fetchBirds } from '@/services/birds'
 const page = async ({ params: { genero } }: { params: { genero: string } }) => {
 	const { birds, message } = await fetchBirds(genero as 'machos' | 'femeas')
 
-	// console.log(birds, 'genero')
-
 	const formatDate = (birth: Date) =>
 		new Date(birth).toISOString().split('T')[0].split('-').reverse().join('/')
 

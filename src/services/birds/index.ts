@@ -1,6 +1,8 @@
 import { GetBirdsReturnType } from '@/server-actions/crudTree'
 
 import { api } from '../api'
+import { Prisma } from '@prisma/client'
+import { toast } from 'sonner'
 
 interface BirdsResponseSuccess {
 	birds: GetBirdsReturnType[]
@@ -34,5 +36,46 @@ export const fetchBirds = async (
 		}
 	} catch (error) {
 		return { message: 'algo deu errado', birds: undefined as never }
+	}
+}
+
+type UpdateBirdsResponse = boolean
+
+interface UpdateBirdBody extends Prisma.BirdUpdateInput {
+	id: number
+}
+
+export const updateBird = async (body: UpdateBirdBody) => {
+	const { id, ...rest } = body
+
+	console.log(id)
+
+	try {
+		const response = await api('/birds/' + id, {
+			method: 'PUT',
+			body: JSON.stringify({ ...rest }),
+		})
+
+		const data: { success: boolean } = await response.json()
+
+		console.log(data)
+
+		if (data.success === false) {
+			return toast.error('Erro ao atualizar ave', {
+				action: {
+					label: 'Tentar novamente',
+					onClick: () => updateBird(body),
+				},
+			})
+		}
+
+		return toast.success('Ave atualizada com sucesso')
+	} catch (error) {
+		return toast.error('Erro ao atualizar ave', {
+			action: {
+				label: 'Tentar novamente',
+				onClick: () => updateBird(body),
+			},
+		})
 	}
 }

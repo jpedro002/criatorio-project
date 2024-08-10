@@ -10,12 +10,13 @@ export async function GET(request: NextRequest) {
 
 	const gender = searchParams.get('gender') as any
 
-	console.log(gender)
-
 	try {
 		const response = await db.bird.findMany({
 			where: {
 				gender: gender[0],
+			},
+			orderBy: {
+				createdAt: 'asc',
 			},
 		})
 
@@ -25,8 +26,4 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		return Response.json({ message: 'algo deu errado' })
 	}
-}
-
-export async function PUT() {
-	return Response.json({ message: 'PUT request' })
 }

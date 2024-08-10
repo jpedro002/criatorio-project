@@ -9,21 +9,15 @@ export async function GET(
 	request: NextRequest,
 	{ params: { birdID } }: { params: { birdID: string } },
 ) {
-	console.log(birdID, 'shablau')
-
 	try {
 		const response = await db.bird.findUnique({
 			where: { id: Number(birdID) },
 			include: { genealogy: true },
 		})
-		console.log('log', 1)
 
 		if (!response) {
-			return { message: 'Árvore não encontrada' }
+			return NextResponse.json({ message: 'Árvore não encontrada' })
 		}
-		console.log('log', 2)
-
-		console.log(response, 'response')
 
 		const { birth, father, gender, mother, visible, name, ring } = response
 
@@ -40,18 +34,21 @@ export async function GET(
 			genealogy: response.genealogy,
 		})
 	} catch (error) {
-		console.log(3)
-
-		return { message: 'Erro ao buscar árvore' }
+		return NextResponse.json(
+			{ message: 'Árvore não encontrada' },
+			{
+				status: 404,
+			},
+		)
 	}
 }
 
 // TODO implementar PUT and revalidate cache with revalidateTag
 
-export async function PUT(
-	request: NextRequest,
-	{ params: { birdID } }: { params: { birdID: string } },
-) {
-	revalidateTag('genealogy' + birdID)
-	return Response.json({ message: 'PUT request' })
-}
+// export async function PUT(
+// 	request: NextRequest,
+// 	{ params: { birdID } }: { params: { birdID: string } },
+// ) {
+// 	revalidateTag('genealogy' + birdID)
+// 	return Response.json({ message: 'PUT request' })
+// }

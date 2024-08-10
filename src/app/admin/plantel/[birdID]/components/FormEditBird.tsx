@@ -9,13 +9,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { updateBird } from '@/services/birds'
+import { Prisma } from '@prisma/client'
 
-export interface FormEditBirdProps extends InputsTypes {
-	id: number
+export interface FormEditBirdProps extends Prisma.BirdGetPayload<{}> {
+	birdID: string
 }
 
 export const FormEditBird = (FormEditBirdProps: FormEditBirdProps) => {
-	const { id, birth, ...rest } = FormEditBirdProps
+	const { birdID, birth, ...rest } = FormEditBirdProps
 
 	const {
 		control,
@@ -24,11 +26,16 @@ export const FormEditBird = (FormEditBirdProps: FormEditBirdProps) => {
 		formState: { errors },
 	} = useForm<InputsTypes>({
 		resolver: zodResolver(schema),
-		defaultValues: { birth: birth.toISOString().split('T')[0] as any, ...rest },
+		defaultValues: {
+			birth: new Date(birth).toISOString().split('T')[0] as any,
+			...rest,
+		},
 	})
 
 	const onSubmit = (data: InputsTypes) => {
-		console.log(data)
+		const dataAndId = { id: birdID, ...data }
+
+		updateBird(dataAndId as any)
 	}
 
 	return (

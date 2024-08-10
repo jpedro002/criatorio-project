@@ -1,12 +1,11 @@
 import { redirect } from 'next/navigation'
 
-import { getGenealogy } from '@/server-actions/crudTree'
-
 import { FormEditBird, FormEditBirdProps } from './components/FormEditBird'
 import { FormGenealogy, GenealogyFormProps } from './components/FormGenealogy'
+import { fetchGenealogy } from '@/services/genealogy'
 
 const GenealogyForm = async ({ params }: { params: { birdID: string } }) => {
-	const { bird, genealogy, message } = await getGenealogy(Number(params.birdID))
+	const { bird, genealogy, message } = await fetchGenealogy(params.birdID)
 
 	const formGenealogyDefaultValues = (): GenealogyFormProps => {
 		if (message) {
@@ -27,7 +26,7 @@ const GenealogyForm = async ({ params }: { params: { birdID: string } }) => {
 		}
 
 		return {
-			id: Number(params.birdID),
+			birdID: params.birdID,
 			...bird,
 		} as FormEditBirdProps
 	}
