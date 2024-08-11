@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgresql:
     image: bitnami/postgresql:latest
-    container_name: postgresql
+    container_name: postgresql-criatorio-nj
     environment:
 
       - POSTGRESQL_USERNAME=docker

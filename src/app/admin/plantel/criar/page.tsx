@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { useToast } from '@/components/ui/toaster/use-toast'
 import { create } from '@/server-actions/crudTree'
 
 import { combinedSchema, CombinedTypes } from '../../schema'
+import { toast } from 'sonner'
 
 // TODO remove use client from the top of the file and componeting the useForm
 
@@ -28,20 +28,13 @@ const page = () => {
 		},
 	})
 
-	const { toast } = useToast()
-
 	const onSubmit = async (data: CombinedTypes) => {
 		try {
 			const response = await create({ ...data })
 
-			toast({
-				title: response.message,
-			})
+			toast.success(response.message)
 		} catch (error) {
-			toast({
-				variant: 'destructive',
-				title: 'Algo deu errado',
-			})
+			toast.error('Algo deu errado')
 		}
 	}
 
