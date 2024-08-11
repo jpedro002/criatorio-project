@@ -2,10 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Prisma } from '@prisma/client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { InputsTypes, schema } from '@/app/admin/schema'
+import { birdCombinedSchema } from '@/app/admin/schema'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -17,25 +17,25 @@ export interface FormEditBirdProps extends Prisma.BirdGetPayload<{}> {
 }
 
 export const FormEditBird = (FormEditBirdProps: FormEditBirdProps) => {
-	const { birdID, birth, ...rest } = FormEditBirdProps
+	const { birth, ...rest } = FormEditBirdProps
 
 	const {
 		control,
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<InputsTypes>({
-		resolver: zodResolver(schema),
+	} = useForm<FormEditBirdProps>({
+		resolver: zodResolver(birdCombinedSchema),
 		defaultValues: {
-			birth: new Date(birth).toISOString().split('T')[0] as any,
 			...rest,
+			birth: new Date(birth).toISOString().split('T')[0] as any,
 		},
 	})
 
-	const onSubmit = (data: InputsTypes) => {
-		const dataAndId = { id: birdID, ...data }
+	const onSubmit = (data: FormEditBirdProps) => {
+		const { birdID, ...rest } = data
 
-		updateBird(dataAndId as any)
+		updateBird({ ...rest, id: Number(birdID) })
 	}
 
 	return (
@@ -62,7 +62,25 @@ export const FormEditBird = (FormEditBirdProps: FormEditBirdProps) => {
 					<span className="my-2 text-red-500">{errors.name.message}</span>
 				)}
 			</div>
+			<div className="mb-8 flex flex-col">
+				<Label className="mb-3" htmlFor="father">
+					Nome do Pai:
+				</Label>
+				<Input id="father" {...register('father')} />
+				{errors.father && (
+					<span className="my-2 text-red-500">{errors.father.message}</span>
+				)}
+			</div>
 
+			<div className="mb-8 flex flex-col">
+				<Label className="mb-3" htmlFor="mother">
+					Nome da Mãe:
+				</Label>
+				<Input id="mother" {...register('mother')} />
+				{errors.mother && (
+					<span className="my-2 text-red-500">{errors.mother.message}</span>
+				)}
+			</div>
 			<div className="col-span-2 mb-8 flex flex-col">
 				<Label className="mb-3" htmlFor="gender">
 					Gênero:

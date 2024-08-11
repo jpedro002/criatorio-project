@@ -18,7 +18,7 @@ interface BirdsResponseError {
 type FetchBirdsResponse = BirdsResponseSuccess | BirdsResponseError
 
 export const fetchBirds = async (
-	gender?: 'machos' | 'femeas',
+	gender?: 'machos' | 'femeas' | '',
 ): Promise<FetchBirdsResponse> => {
 	try {
 		const response = await api('/birds?gender=' + gender, {
@@ -40,16 +40,12 @@ export const fetchBirds = async (
 	}
 }
 
-type UpdateBirdsResponse = boolean
-
 interface UpdateBirdBody extends Prisma.BirdUpdateInput {
 	id: number
 }
 
 export const updateBird = async (body: UpdateBirdBody) => {
-	const { id, ...rest } = body
-
-	console.log(id)
+	const { createdAt, updatedAt, genealogy, id, ...rest } = body
 
 	try {
 		const response = await api('/birds/' + id, {
@@ -58,8 +54,6 @@ export const updateBird = async (body: UpdateBirdBody) => {
 		})
 
 		const data: { success: boolean } = await response.json()
-
-		console.log(data)
 
 		if (data.success === false) {
 			return toast.error('Erro ao atualizar ave', {

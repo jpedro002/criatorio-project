@@ -49,3 +49,26 @@ export const fetchGenealogy = async (
 		}
 	}
 }
+
+interface UpdateGenealogyBody extends Prisma.GenealogyUpdateInput {
+	id: string | number
+}
+
+export const updateGenealogy = async (body: UpdateGenealogyBody) => {
+	const { id, ...rest } = body
+
+	try {
+		const response = await api('/genealogy/' + id, {
+			method: 'PUT',
+			body: JSON.stringify({ ...rest }),
+		})
+
+		// TODO: make a toast
+
+		const data: { success: boolean } = await response.json()
+
+		return data.success
+	} catch (error) {
+		return false
+	}
+}

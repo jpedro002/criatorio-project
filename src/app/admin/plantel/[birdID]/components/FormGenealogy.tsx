@@ -24,6 +24,8 @@ export const FormGenealogy = (defaultValues: GenealogyFormProps) => {
 		defaultValues: { ...rest },
 	})
 
+	console.log(id, 'id')
+
 	const onSubmit = (data: GenealogyType) => {
 		console.log(data, 'raw data')
 		// TODO:  send data to the server
@@ -34,36 +36,6 @@ export const FormGenealogy = (defaultValues: GenealogyFormProps) => {
 			className="flex flex-col gap-4 rounded-lg border p-4 sm:grid sm:grid-cols-2"
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<div className="col-span-2 mb-8 flex flex-col">
-				<Label className="mb-3" htmlFor="child">
-					Nome do Filho:
-				</Label>
-				<Input id="child" {...register('child')} />
-				{errors.child && (
-					<span className="my-2 text-red-500">{errors.child.message}</span>
-				)}
-			</div>
-
-			<div className="mb-8 flex flex-col">
-				<Label className="mb-3" htmlFor="father">
-					Nome do Pai:
-				</Label>
-				<Input id="father" {...register('father')} />
-				{errors.father && (
-					<span className="my-2 text-red-500">{errors.father.message}</span>
-				)}
-			</div>
-
-			<div className="mb-8 flex flex-col">
-				<Label className="mb-3" htmlFor="mother">
-					Nome da Mãe:
-				</Label>
-				<Input id="mother" {...register('mother')} />
-				{errors.mother && (
-					<span className="my-2 text-red-500">{errors.mother.message}</span>
-				)}
-			</div>
-
 			<h3 className="col-span-2 text-xl font-semibold">Avós Paternos</h3>
 			<div className="mb-8 flex flex-col">
 				<Label className="mb-3" htmlFor="paternalGrandfather">

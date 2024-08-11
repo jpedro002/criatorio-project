@@ -10,10 +10,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-import { getBirds } from '@/server-actions/crudTree'
+import { fetchBirds } from '@/services/birds'
 
 const page = async () => {
-	const birds = await getBirds()
+	const { birds, message } = await fetchBirds('')
 
 	return (
 		<div className="flex w-full flex-col gap-8 p-6">
@@ -35,7 +35,7 @@ const page = async () => {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{birds.map((bird) => (
+					{birds?.map((bird: any) => (
 						<TableRow key={bird.id}>
 							<TableCell className=" font-medium">{bird.ring}</TableCell>
 							<TableCell>{bird.name}</TableCell>

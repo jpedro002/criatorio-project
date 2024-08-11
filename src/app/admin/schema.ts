@@ -72,6 +72,14 @@ export const schema = z.object({
 	visible: z.boolean(),
 })
 
+const additionalBirdSchema = z.object({
+	birdID: z.string(),
+	father: z.string().min(2, { message: 'Nome do pai é obrigatorio' }),
+	mother: z.string().min(2, { message: 'Nome da mãe é obrigatorio' }),
+})
+
+export const birdCombinedSchema = schema.merge(additionalBirdSchema)
+
 export const combinedSchema = genealogySchema.merge(schema)
 
 export type GenealogyType = z.infer<typeof genealogySchema>

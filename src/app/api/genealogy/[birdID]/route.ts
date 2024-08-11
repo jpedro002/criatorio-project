@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { db } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export const dynamic = ''
 
@@ -43,12 +44,26 @@ export async function GET(
 	}
 }
 
-// TODO implementar PUT and revalidate cache with revalidateTag
+export async function PUT(
+	request: NextRequest,
+	{ params: { birdID } }: { params: { birdID: string } },
+) {
+	const body = (await request.json()) as Prisma.GenealogyUpdateInput
 
-// export async function PUT(
-// 	request: NextRequest,
-// 	{ params: { birdID } }: { params: { birdID: string } },
-// ) {
-// 	revalidateTag('genealogy' + birdID)
-// 	return Response.json({ message: 'PUT request' })
-// }
+	try {
+		const response = await db.bird.update({
+			where: {
+				id: Number(birdID),
+			},
+			data: body,
+		})
+
+		revalidateTag('genealogy' + birdID)
+
+		return Response.json({ success: true })
+	} catch (error) {
+		console.log(error)
+
+		return Response.json({ success: false })
+	}
+}

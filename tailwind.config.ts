@@ -21,6 +21,7 @@ const config = {
 			screens: {
 				'2md': '900px',
 				'3md': '940px',
+				lg2: '1060px',
 			},
 			colors: {
 				border: 'hsl(var(--border))',
