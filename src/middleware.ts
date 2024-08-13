@@ -36,10 +36,7 @@ export async function middleware(req: NextRequest) {
 
 	// add the CORS headers to the response
 	res.headers.append('Access-Control-Allow-Credentials', 'true')
-	res.headers.append(
-		'Access-Control-Allow-Origin',
-		env.NEXT_PUBLIC_API_BASE_URL || '*',
-	) // replace this your actual origin
+	res.headers.append('Access-Control-Allow-Origin', env.APP_URL || '*') // replace this your actual origin
 	res.headers.append(
 		'Access-Control-Allow-Methods',
 		'GET,DELETE,PATCH,POST,PUT',
