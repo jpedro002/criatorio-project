@@ -1,3 +1,5 @@
+import { NavLink } from '@/components/navigation'
+import { SheetHeader } from '@/components/SheetHeader'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
@@ -5,9 +7,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 	return (
 		<div className="flex h-full min-h-screen flex-col  md:flex-row">
 			<header className="flex items-center justify-between bg-gray-900 px-4 py-2 text-white md:hidden ">
-				<button>trigger</button>
+				<SheetHeader isAdminSheet>
+					<NavLink href={'/admin/plantel'} className="pl-6 text-lg text-black">
+						Plantel
+					</NavLink>
+				</SheetHeader>
 				<h1 className="mx-auto text-2xl font-bold">Criatório</h1>
 			</header>
+
 			<div className="hidden w-64 flex-col bg-gray-900 p-6 text-white md:flex">
 				<div className="mb-6 flex items-center">
 					<h1 className="p-2 text-2xl font-bold">Criatório</h1>
@@ -22,6 +29,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 					</Link>
 				</nav>
 			</div>
+
 			{children}
 		</div>
 	)

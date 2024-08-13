@@ -15,7 +15,13 @@ import {
 import { ROUTES } from './MainHeader'
 import { DropDownNavigate, NavLink } from './navigation'
 
-export const SheetHeader = () => {
+export const SheetHeader = ({
+	isAdminSheet,
+	children,
+}: {
+	isAdminSheet?: boolean
+	children?: React.ReactNode
+}) => {
 	const [open, setOpen] = useState(false)
 
 	const handleChangeOpen = () => {
@@ -36,27 +42,29 @@ export const SheetHeader = () => {
 					<SheetTitle>Páginas</SheetTitle>
 				</SheetHeaderPrimitive>
 				<nav className="flex flex-col gap-2">
-					{ROUTES.map(({ href, label }) => {
-						if (label === '')
-							return (
-								<DropDownNavigate
-									ButtonTriggerClasName="text-black flex items-center p-2 text-base font-semibold hover:text-slate-400 "
-									key={href}
-									onClickLink={() => handleChangeOpen()}
-								/>
-							)
+					{isAdminSheet
+						? children
+						: ROUTES.map(({ href, label }) => {
+								if (label === '')
+									return (
+										<DropDownNavigate
+											ButtonTriggerClasName="text-black flex items-center p-2 text-base font-semibold hover:text-slate-400 "
+											key={href}
+											onClickLink={() => handleChangeOpen()}
+										/>
+									)
 
-						return (
-							<NavLink
-								key={href}
-								href={href}
-								className="text-black"
-								onClick={() => handleChangeOpen()}
-							>
-								{label}
-							</NavLink>
-						)
-					})}
+								return (
+									<NavLink
+										key={href}
+										href={href}
+										className="text-black"
+										onClick={() => handleChangeOpen()}
+									>
+										{label}
+									</NavLink>
+								)
+							})}
 				</nav>
 			</SheetContent>
 		</Sheet>

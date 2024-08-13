@@ -51,7 +51,7 @@ export async function PUT(
 	const body = (await request.json()) as Prisma.GenealogyUpdateInput
 
 	try {
-		const response = await db.bird.update({
+		const response = await db.genealogy.update({
 			where: {
 				id: Number(birdID),
 			},

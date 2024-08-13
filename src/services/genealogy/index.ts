@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 
 import { api } from '../api'
+import { toast } from 'sonner'
 
 type BirdWithGenealogy = Prisma.BirdGetPayload<{
 	include: { genealogy: true }
@@ -66,6 +67,12 @@ export const updateGenealogy = async (body: UpdateGenealogyBody) => {
 		// TODO: make a toast
 
 		const data: { success: boolean } = await response.json()
+
+		if (!data.success) {
+			toast.error('erro ao atualizar')
+			return data.success
+		}
+		toast.success('atualizado com sucesso')
 
 		return data.success
 	} catch (error) {

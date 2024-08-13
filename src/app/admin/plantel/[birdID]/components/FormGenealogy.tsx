@@ -4,11 +4,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@radix-ui/react-label'
 import { useForm } from 'react-hook-form'
 
-import { combinedSchema, GenealogyType } from '@/app/admin/schema'
+import {
+	combinedSchema,
+	editGenealogySchema,
+	EditGenealogyType,
+	GenealogyType,
+} from '@/app/admin/schema'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useEffect } from 'react'
+import { Genealogy } from '@prisma/client'
+import { useRouter } from 'next/navigation'
+import { updateGenealogy } from '@/services/genealogy'
 
-export interface GenealogyFormProps extends GenealogyType {
+export interface GenealogyFormProps extends EditGenealogyType {
 	id: number
 }
 
@@ -20,13 +29,23 @@ export const FormGenealogy = (defaultValues: GenealogyFormProps) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<GenealogyType>({
-		resolver: zodResolver(combinedSchema),
+		resolver: zodResolver(editGenealogySchema),
 		defaultValues: { ...rest },
 	})
 
-	const onSubmit = (data: GenealogyType) => {
+	const router = useRouter()
+
+	useEffect(() => {
+		console.log(errors, 'errors')
+	}, [errors])
+
+	const onSubmit = async (data: GenealogyType) => {
 		console.log(data, 'raw data')
-		// TODO:  send data to the server
+		const success = await updateGenealogy({ id, ...data })
+
+		if (success) {
+			router.push('/admin/plantel')
+		}
 	}
 
 	return (
