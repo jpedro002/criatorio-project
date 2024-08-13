@@ -1,5 +1,5 @@
 import { env } from '@/env'
-import AuthService from '@/server-actions/auth/actions /authService'
+import AuthService from '@/app/api/auth/authService'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const config = {
@@ -19,10 +19,16 @@ export async function middleware(req: NextRequest) {
 	// 	123,
 	// )
 
+	console.log('pathname', pathname)
+
 	if (!session && pathname.split('/').includes('admin')) {
 		return NextResponse.redirect(new URL('/auth', req.url))
 	} else if (session && pathname === '/auth') {
 		return NextResponse.redirect(new URL('/admin/plantel', req.url))
+	} else if (pathname === '/auth' || '/api/auth/login' || '/api/auth/logout') {
+		return NextResponse.next()
+	} else if (!session && pathname.split('/').includes('api')) {
+		return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
 	}
 
 	// retrieve the current response

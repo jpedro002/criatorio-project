@@ -2,6 +2,7 @@
   "name": "fsw-foods",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": " prisma generate && next dev",
     "dev:docker": "docker compose up -d && prisma generate && next dev",

@@ -21,8 +21,6 @@ export async function GET(request: NextRequest) {
 			},
 		})
 
-		revalidateTag('birds')
-
 		return Response.json({ birds: response })
 	} catch (error) {
 		return Response.json({ message: 'algo deu errado' })

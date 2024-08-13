@@ -1,35 +1,23 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Button } from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-// Definindo o schema de validação com Zod
-const loginSchema = z.object({
-	email: z
-		.string()
-		.min(1, 'Email é obrigatório')
-		.email('Formato de email inválido'),
-	password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
-})
-
-// Inferindo o tipo do schema com z.infer
-type LoginFormInputs = z.infer<typeof loginSchema>
+import { LoginFormInputs, loginSchema } from '@/lib/validations/auth/login'
+import { useLogin } from '@/services/auth'
 
 export function LoginForm() {
-	// Usando useForm com o zodResolver e a tipagem inferida
+	const { login } = useLogin()
+
 	const {
 		register,
 		handleSubmit,
@@ -38,9 +26,8 @@ export function LoginForm() {
 		resolver: zodResolver(loginSchema),
 	})
 
-	// Função chamada ao enviar o formulário
-	const onSubmit = (data: LoginFormInputs) => {
-		console.log('Form Data:', data)
+	const onSubmit = async (data: LoginFormInputs) => {
+		await login(data)
 	}
 
 	return (

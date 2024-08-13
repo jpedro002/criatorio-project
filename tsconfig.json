@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next-auth.d.ts"
-, "src/populate.js"  ],
+, "src/populate.js", "src/server-actions/createAdmin.ts"  ],
   "exclude": ["node_modules"]
 }

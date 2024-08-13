@@ -1,19 +1,46 @@
-import { db } from '@/lib/prisma'
+'use server'
 
-async function createTransaction() {
+import AuthService from '@/app/api/auth/authService'
+import { db } from '@/lib/prisma'
+import * as bcrypt from 'bcrypt'
+
+export async function createAccount(data: any) {
+	// const user = await db.admin.findFirst({
+	// 	where: {
+	// 		email: data.email,
+	// 	},
+	// })
+
+	// if (user) {
+	// 	return {
+	// 		success: false,
+	// 		errorMessage: 'Email já cadastrado',
+	// 		errorType: 'email',
+	// 	}
+	// } else {
 	try {
-		const newTransaction = await db.admin.create({
+		const hashPassword = await bcrypt.hash(data.password, 10)
+
+		const { id } = await db.admin.create({
 			data: {
-				email: 'admin123',
-				password: 'admin123',
+				email: data.email,
+				password: hashPassword,
 			},
 		})
-		console.log(newTransaction)
-	} catch (error) {
-		console.error(error)
+
+		AuthService.createSessionToken({
+			sub: id,
+		})
+
+		return { success: true }
+	} catch (err) {
+		console.log(err)
+
+		return {
+			success: false,
+			errorMensage: 'Erro ao criar conta',
+			errorType: 'server',
+		}
 	}
 }
-
-createTransaction()
-
-// TODO USE JWT TO CREATE ADMIN
+// }

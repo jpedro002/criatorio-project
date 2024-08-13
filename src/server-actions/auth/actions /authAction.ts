@@ -6,7 +6,7 @@ import z from 'zod'
 import { db } from '@/lib/prisma'
 import { loginSchema } from '@/lib/validations/auth/login'
 
-import AuthService from './authService'
+import AuthService from '../../../app/api/auth/authService'
 
 type LoginInputs = z.infer<typeof loginSchema>
 
