@@ -60,7 +60,7 @@ export const DropDownNavigate = ({
 			</button>
 			{open && (
 				<motion.div
-					className="absolute left-0 top-12 z-50 rounded-sm bg-white p-2 shadow-lg"
+					className="absolute left-0 top-10 z-50 rounded-sm bg-white p-2 shadow-lg"
 					initial={{ opacity: 0, scale: 0.9 }}
 					animate={{ opacity: 1, scale: 1 }}
 					exit={{ opacity: 0, scale: 0.9 }}
