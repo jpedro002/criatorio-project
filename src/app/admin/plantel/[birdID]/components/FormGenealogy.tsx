@@ -24,8 +24,6 @@ export const FormGenealogy = (defaultValues: GenealogyFormProps) => {
 		defaultValues: { ...rest },
 	})
 
-	console.log(id, 'id')
-
 	const onSubmit = (data: GenealogyType) => {
 		console.log(data, 'raw data')
 		// TODO:  send data to the server

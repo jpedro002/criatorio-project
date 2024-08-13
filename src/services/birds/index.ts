@@ -4,15 +4,14 @@ import { toast } from 'sonner'
 import { GetBirdsReturnType } from '@/server-actions/crudTree'
 
 import { api } from '../api'
+import { CreateFullBird } from '@/app/api/birds/route'
 
 interface BirdsResponseSuccess {
 	birds: GetBirdsReturnType[]
-	message?: never
 }
 
 interface BirdsResponseError {
 	birds?: never
-	message: string
 }
 
 type FetchBirdsResponse = BirdsResponseSuccess | BirdsResponseError
@@ -33,10 +32,10 @@ export const fetchBirds = async (
 		if ('birds' in data) {
 			return data as BirdsResponseSuccess
 		} else {
-			return { message: 'dados incompletos', birds: undefined as never }
+			return { birds: undefined as never }
 		}
 	} catch (error) {
-		return { message: 'algo deu errado', birds: undefined as never }
+		return { birds: undefined as never }
 	}
 }
 
@@ -74,3 +73,60 @@ export const updateBird = async (body: UpdateBirdBody) => {
 		})
 	}
 }
+
+export const useCreateFullBird = async (
+	birdInput: CreateFullBird,
+): Promise<{
+	success: boolean
+	redirect: boolean
+}> => {
+	try {
+		const response = await api('/birds', {
+			method: 'POST',
+			body: JSON.stringify(birdInput),
+		})
+
+		const { message } = await response.json()
+
+		if (response.status === 400) {
+			toast.error(message)
+			return { success: false, redirect: false }
+		}
+
+		toast.success('Ave criada com sucesso')
+		return { success: true, redirect: true }
+	} catch (error) {
+		toast.error('Erro ao criar ave')
+		return { success: false, redirect: false }
+	}
+}
+
+// TODO make this function work and the route too
+
+// export const deleteBird = async (id: number) => {
+// 	try {
+// 		const response = await api('/birds/' + id, {
+// 			method: 'DELETE',
+// 		})
+
+// 		const data: { success: boolean } = await response.json()
+
+// 		if (data.success === false) {
+// 			return toast.error('Erro ao deletar ave', {
+// 				action: {
+// 					label: 'Tentar novamente',
+// 					onClick: () => deleteBird(id),
+// 				},
+// 			})
+// 		}
+
+// 		return toast.success('Ave deletada com sucesso')
+// 	} catch (error) {
+// 		return toast.error('Erro ao deletar ave', {
+// 			action: {
+// 				label: 'Tentar novamente',
+// 				onClick: () => deleteBird(id),
+// 			},
+// 		})
+// 	}
+// }

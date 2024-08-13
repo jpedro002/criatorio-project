@@ -19,15 +19,13 @@ export async function middleware(req: NextRequest) {
 		pathname === '/api/auth/login' ||
 		pathname === '/api/auth/logout'
 
-	console.log('pathname', pathname)
-
 	if (!session && isAdminPath()) {
 		return NextResponse.redirect(new URL('/auth', req.url))
 	} else if (session && pathname === '/auth') {
 		return NextResponse.redirect(new URL('/admin/plantel', req.url))
 	} else if (isAuthPath()) {
 		return NextResponse.next()
-	} else if (!session && isApiPath()) {
+	} else if (!session && isApiPath() && req.method !== 'GET') {
 		return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
 	}
 }

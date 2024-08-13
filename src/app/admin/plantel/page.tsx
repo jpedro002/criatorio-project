@@ -13,7 +13,7 @@ import {
 import { fetchBirds } from '@/services/birds'
 
 const page = async () => {
-	const { birds, message } = await fetchBirds('')
+	const { birds } = await fetchBirds('')
 
 	return (
 		<div className="flex w-full flex-col gap-8 p-6">
@@ -35,6 +35,13 @@ const page = async () => {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
+					{birds?.length === 0 && (
+						<TableRow>
+							<TableCell colSpan={5} className="text-center">
+								Nenhum pássaro encontrado
+							</TableCell>
+						</TableRow>
+					)}
 					{birds?.map((bird: any) => (
 						<TableRow key={bird.id}>
 							<TableCell className=" font-medium">{bird.ring}</TableCell>

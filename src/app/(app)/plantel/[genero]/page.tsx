@@ -6,10 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { fetchBirds } from '@/services/birds'
 
 // TODO choice background color for the page bg-slate-300 sugestion
-// TODO refactor fetchBirds
 
 const page = async ({ params: { genero } }: { params: { genero: string } }) => {
-	const { birds, message } = await fetchBirds(genero as 'machos' | 'femeas')
+	const { birds } = await fetchBirds(genero as 'machos' | 'femeas')
 
 	const formatDate = (birth: Date) =>
 		new Date(birth).toISOString().split('T')[0].split('-').reverse().join('/')
@@ -21,7 +20,11 @@ const page = async ({ params: { genero } }: { params: { genero: string } }) => {
 			3md:grid-cols-3 xl:grid-cols-4
 		"
 		>
-			{message && <h1>{message}</h1>}
+			{birds?.length === 0 && (
+				<h1 className="col-span-full w-full justify-self-center text-center">
+					Nenhum pássaro encontrado
+				</h1>
+			)}
 
 			{birds?.map((item: any) => (
 				<Link href={genero + '/' + item.id} key={item.id}>

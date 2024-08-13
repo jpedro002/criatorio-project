@@ -4,5 +4,5 @@ import AuthService from '../authService'
 export async function POST(req: NextRequest) {
 	AuthService.destroySession()
 
-	return NextResponse.rewrite(new URL('/', req.url))
+	return NextResponse.redirect(new URL('/', req.url))
 }
