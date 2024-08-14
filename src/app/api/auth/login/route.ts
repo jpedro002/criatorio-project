@@ -1,8 +1,10 @@
 import * as bcrypt from 'bcrypt'
-import AuthService from '../authService'
+import { NextRequest, NextResponse } from 'next/server'
+
 import { db } from '@/lib/prisma'
 import { loginSchema } from '@/lib/validations/auth/login'
-import { NextRequest, NextResponse } from 'next/server'
+
+import AuthService from '../authService'
 
 export async function POST(req: NextRequest) {
 	const data = await req.json()

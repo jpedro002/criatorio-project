@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client'
 import { toast } from 'sonner'
 
+import { CreateFullBird } from '@/app/api/birds/route'
 import { GetBirdsReturnType } from '@/server-actions/crudTree'
 
 import { api } from '../api'
-import { CreateFullBird } from '@/app/api/birds/route'
 
 interface BirdsResponseSuccess {
 	birds: GetBirdsReturnType[]

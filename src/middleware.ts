@@ -1,6 +1,7 @@
-import { env } from '@/env'
-import AuthService from '@/app/api/auth/authService'
 import { NextRequest, NextResponse } from 'next/server'
+
+import AuthService from '@/app/api/auth/authService'
+import { env } from '@/env'
 
 export const config = {
 	matcher: '/((?!_next/static|_next/image|favicon.ico).*)',

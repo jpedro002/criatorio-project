@@ -80,7 +80,7 @@ const page = async ({ params }: { params: { 'passaro-id': string } }) => {
 				</li>
 			</ul>
 
-			<section className="lg2:overflow-x-hidden mx-auto mt-4 grid h-full w-full min-w-[1025px] max-w-[1025px] grid-cols-5 grid-rows-2 place-items-center">
+			<section className="mx-auto mt-4 grid h-full w-full min-w-[1025px] max-w-[1025px] grid-cols-5 grid-rows-2 place-items-center lg2:overflow-x-hidden">
 				<div className="row-span-2">
 					<TreeItem
 						label={bird.name}

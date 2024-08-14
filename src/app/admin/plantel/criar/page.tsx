@@ -1,16 +1,16 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { useCreateFullBird } from '@/services/birds'
 
 import { combinedSchema, CombinedTypes } from '../../schema'
-import { useCreateFullBird } from '@/services/birds'
-import { useRouter } from 'next/navigation'
 
 // TODO remove use client from the top of the file and componeting the useForm
 

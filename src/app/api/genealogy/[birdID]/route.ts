@@ -1,8 +1,8 @@
+import { Prisma } from '@prisma/client'
 import { revalidateTag } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { db } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
 
 export const dynamic = ''
 

@@ -1,7 +1,9 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { api } from '../api'
+
 import { LoginFormInputs } from '@/lib/validations/auth/login'
+
+import { api } from '../api'
 
 interface LoginResponseSuccess {
 	errorType: never

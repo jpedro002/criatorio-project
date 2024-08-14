@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
+import { toast } from 'sonner'
 
 import { api } from '../api'
-import { toast } from 'sonner'
 
 type BirdWithGenealogy = Prisma.BirdGetPayload<{
 	include: { genealogy: true }

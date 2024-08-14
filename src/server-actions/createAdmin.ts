@@ -1,8 +1,9 @@
 'use server'
 
+import * as bcrypt from 'bcrypt'
+
 import AuthService from '@/app/api/auth/authService'
 import { db } from '@/lib/prisma'
-import * as bcrypt from 'bcrypt'
 
 export async function createAccount(data: any) {
 	// const user = await db.admin.findFirst({

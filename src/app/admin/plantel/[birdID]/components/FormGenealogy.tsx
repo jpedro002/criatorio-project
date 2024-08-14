@@ -1,7 +1,10 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Genealogy } from '@prisma/client'
 import { Label } from '@radix-ui/react-label'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -12,9 +15,6 @@ import {
 } from '@/app/admin/schema'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useEffect } from 'react'
-import { Genealogy } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 import { updateGenealogy } from '@/services/genealogy'
 
 export interface GenealogyFormProps extends EditGenealogyType {
