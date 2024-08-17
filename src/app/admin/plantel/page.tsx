@@ -10,10 +10,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-import { fetchBirds } from '@/services/birds'
+import { fetchAllBirds } from '@/services/birds'
 
 const page = async () => {
-	const { birds } = await fetchBirds('')
+	const { birds } = await fetchAllBirds()
 
 	return (
 		<div className="flex w-full flex-col gap-8 p-6">

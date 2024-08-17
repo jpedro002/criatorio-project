@@ -6,17 +6,9 @@ import { db } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: NextRequest) {
-	const searchParams = request.nextUrl.searchParams
-
-	const gender = searchParams.get('gender') as any
-
+export async function GET() {
 	try {
 		const response = await db.bird.findMany({
-			where: {
-				gender: gender[0],
-				visible: true,
-			},
 			orderBy: {
 				createdAt: 'asc',
 			},
@@ -24,6 +16,8 @@ export async function GET(request: NextRequest) {
 
 		return Response.json({ birds: response })
 	} catch (error) {
+		console.log(error)
+
 		return Response.json({ message: 'algo deu errado' })
 	}
 }

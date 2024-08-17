@@ -3,12 +3,12 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { fetchBirds } from '@/services/birds'
+import { fetchBirdsByGender } from '@/services/birds'
 
 // TODO choice background color for the page bg-slate-300 sugestion
 
 const page = async ({ params: { genero } }: { params: { genero: string } }) => {
-	const { birds } = await fetchBirds(genero as 'machos' | 'femeas')
+	const { birds } = await fetchBirdsByGender(genero as 'machos' | 'femeas')
 
 	const formatDate = (birth: Date) =>
 		new Date(birth).toISOString().split('T')[0].split('-').reverse().join('/')

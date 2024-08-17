@@ -35,6 +35,7 @@ export const FormEditBird = (FormEditBirdProps: FormEditBirdProps) => {
 	const onSubmit = (data: FormEditBirdProps) => {
 		const { birdID, ...rest } = data
 
+		// TODO : redirect to /admin/plantel
 		updateBird({ ...rest, id: Number(birdID) })
 	}
 

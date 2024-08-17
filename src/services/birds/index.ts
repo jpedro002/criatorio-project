@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, PrismaPromise } from '@prisma/client'
 import { toast } from 'sonner'
 
 import { CreateFullBird } from '@/app/api/birds/route'
@@ -16,11 +16,11 @@ interface BirdsResponseError {
 
 type FetchBirdsResponse = BirdsResponseSuccess | BirdsResponseError
 
-export const fetchBirds = async (
+export const fetchBirdsByGender = async (
 	gender?: 'machos' | 'femeas' | '',
 ): Promise<FetchBirdsResponse> => {
 	try {
-		const response = await api('/birds?gender=' + gender, {
+		const response = await api('/birds/gender?gender=' + gender, {
 			next: {
 				tags: ['birds'],
 			},
@@ -38,7 +38,26 @@ export const fetchBirds = async (
 		return { birds: undefined as never }
 	}
 }
+export const fetchAllBirds = async (): Promise<FetchBirdsResponse> => {
+	try {
+		const response = await api('/birds', {
+			next: {
+				tags: ['birds'],
+			},
+		})
 
+		const data: BirdsResponseSuccess | BirdsResponseError =
+			await response.json()
+
+		if ('birds' in data) {
+			return data as BirdsResponseSuccess
+		} else {
+			return { birds: undefined as never }
+		}
+	} catch (error) {
+		return { birds: undefined as never }
+	}
+}
 interface UpdateBirdBody extends Prisma.BirdUpdateInput {
 	id: number
 }
