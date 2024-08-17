@@ -49,8 +49,6 @@ export const fetchAllBirds = async (): Promise<FetchBirdsResponse> => {
 		const data: BirdsResponseSuccess | BirdsResponseError =
 			await response.json()
 
-		console.log(data, 'data birds response')
-
 		if ('birds' in data) {
 			return data as BirdsResponseSuccess
 		} else {
@@ -151,3 +149,25 @@ export const useCreateFullBird = async (
 // 		})
 // 	}
 // }
+
+interface dataResponseAvaliableParents {
+	name: string
+	gender: string
+	id: number
+}
+
+export interface parentsResponse {
+	males: dataResponseAvaliableParents[]
+	females: dataResponseAvaliableParents[]
+}
+
+export const useFetchAvaliableParents = async (): Promise<parentsResponse> => {
+	try {
+		const response = await api('/birds/info')
+		const result: parentsResponse = await response.json()
+		return result
+	} catch (error) {
+		console.error('Error fetching parents data:', error)
+		return { males: [], females: [] }
+	}
+}

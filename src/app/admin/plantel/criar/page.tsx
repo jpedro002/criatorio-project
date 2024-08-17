@@ -34,14 +34,14 @@ const page = () => {
 	const router = useRouter()
 
 	const onSubmit = async (data: CombinedTypes) => {
-		// const { redirect, success } = await useCreateFullBird({
-		// 	...data,
-		// 	name: data.child,
-		// } as any)
+		const { redirect, success } = await useCreateFullBird({
+			...data,
+			name: data.child,
+		} as any)
 
-		// if (redirect && success) {
-		// 	router.replace('/admin/plantel')
-		// }
+		if (redirect && success) {
+			router.replace('/admin/plantel')
+		}
 		console.log(data)
 	}
 
@@ -139,27 +139,6 @@ const page = () => {
 							<span className="my-2 text-red-500">{errors.child.message}</span>
 						)}
 					</div>
-
-					{/* TODO: add combo box to select the father bird */}
-
-					{/* <div className="mb-8 flex flex-col">
-					<Label className="mb-3" htmlFor="father">
-						Nome do Pai:
-					</Label>
-					<Input id="father" {...register('father')} />
-					{errors.father && (
-						<span className="my-2 text-red-500">{errors.father.message}</span>
-					)}
-				</div>
-				<div className="mb-8 flex flex-col">
-					<Label className="mb-3" htmlFor="mother">
-						Nome da Mãe:
-					</Label>
-					<Input id="mother" {...register('mother')} />
-					{errors.mother && (
-						<span className="my-2 text-red-500">{errors.mother.message}</span>
-					)}
-				</div> */}
 
 					<GenealogyCombobox />
 
