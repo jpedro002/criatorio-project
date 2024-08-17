@@ -49,6 +49,8 @@ export const fetchAllBirds = async (): Promise<FetchBirdsResponse> => {
 		const data: BirdsResponseSuccess | BirdsResponseError =
 			await response.json()
 
+		console.log(data, 'data birds response')
+
 		if ('birds' in data) {
 			return data as BirdsResponseSuccess
 		} else {
