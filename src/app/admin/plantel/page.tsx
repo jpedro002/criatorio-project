@@ -11,6 +11,7 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import { fetchAllBirds } from '@/services/birds'
+import { TableLine } from './components/TableLine'
 
 const page = async () => {
 	const { birds } = await fetchAllBirds()
@@ -42,21 +43,17 @@ const page = async () => {
 							</TableCell>
 						</TableRow>
 					)}
-					{birds?.map((bird: any) => (
-						<TableRow key={bird.id}>
-							<TableCell className=" font-medium">{bird.ring}</TableCell>
-							<TableCell>{bird.name}</TableCell>
-							<TableCell>{bird.father}</TableCell>
-							<TableCell className="">{bird.mother}</TableCell>
-							<TableCell className="">
-								<Button variant="ghost" className="size-10 p-2" asChild>
-									<Link href={'/admin/plantel/' + bird.id}>
-										<Pencil size={18} />
-									</Link>
-								</Button>
-							</TableCell>
-						</TableRow>
-					))}
+					{birds &&
+						birds.map((bird: any) => (
+							<TableLine
+								key={bird.id}
+								ring={bird.ring}
+								name={bird.name}
+								father={bird.father}
+								mother={bird.mother}
+								id={bird.id}
+							/>
+						))}
 				</TableBody>
 			</Table>
 		</div>
