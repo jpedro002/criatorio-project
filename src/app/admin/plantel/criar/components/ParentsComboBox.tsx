@@ -17,13 +17,11 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, Controller } from 'react-hook-form'
 import { CombinedTypes } from '@/app/admin/schema'
 
 import { useFillGenealogy } from './useFillGenealogy'
 import { parentsResponse, useFetchAvaliableParents } from '@/services/birds'
-
-// TODO:	use Controller to handle the input value
 
 export function GenealogyCombobox() {
 	const [parents, setParents] = useState<parentsResponse>({} as parentsResponse)
@@ -46,14 +44,7 @@ export function GenealogyCombobox() {
 		setInputValue('')
 	}, [fatherOpen, motherOpen])
 
-	const {
-		setValue,
-		formState: { errors },
-	} = useFormContext<CombinedTypes>()
-
-	useEffect(() => {
-		console.log(errors)
-	}, [errors])
+	const { control } = useFormContext<CombinedTypes>()
 
 	const { fillFatherGenealogy, fillMotherGenealogy } = useFillGenealogy()
 
@@ -88,13 +79,11 @@ export function GenealogyCombobox() {
 					females: [...prev.females],
 					males: [...prev.males, { name: value, gender: value, id: 0 }],
 				}))
-				setValue('father', value)
 			} else {
 				setParents((prev) => ({
 					females: [...prev.females, { name: value, gender: value, id: 0 }],
 					males: [...prev.males],
 				}))
-				setValue('mother', value)
 			}
 		}
 	}
@@ -103,150 +92,170 @@ export function GenealogyCombobox() {
 		<>
 			{/* Combo box for Father */}
 			<div className="mb-8 flex flex-col gap-4">
-				<Popover open={fatherOpen} onOpenChange={setFatherOpen}>
-					<PopoverTrigger asChild>
-						<Button
-							variant="outline"
-							role="combobox"
-							aria-expanded={fatherOpen}
-							className="w-full justify-between"
-						>
-							{selectedFather || 'Selecione o pai...'}
-							<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent className="w-full p-0" align="start">
-						<Command>
-							<CommandInput
-								placeholder="Procurar pai..."
-								value={inputValue}
-								onValueChange={setInputValue}
-							/>
-							<CommandList>
-								<CommandGroup>
-									{parents.males?.map((father) => (
-										<CommandItem
-											key={father.name}
-											value={father.name}
-											onSelect={() =>
-												handleSelect(
-													setSelectedFather,
-													father.name,
-													setFatherOpen,
-													true,
-													true,
-												)
-											}
-										>
-											<Check
-												className={cn(
-													'mr-2 h-4 w-4',
-													selectedFather === father.name
-														? 'opacity-100'
-														: 'opacity-0',
-												)}
-											/>
-											{father.name}
-										</CommandItem>
-									))}
-									{inputValue && (
-										<CommandItem
-											value={inputValue}
-											onSelect={() =>
-												handleSelect(
-													setSelectedFather,
-													inputValue,
-													setFatherOpen,
-													false,
-													true,
-												)
-											}
-										>
-											Adicionar "{inputValue}"
-										</CommandItem>
-									)}
-								</CommandGroup>
-							</CommandList>
-						</Command>
-					</PopoverContent>
-				</Popover>
-				{errors.father && (
-					<span className="my-2 text-red-500">Nome do pai é obrigatorio</span>
-				)}
+				<Controller
+					name="father"
+					control={control}
+					render={({ field, fieldState: { error } }) => (
+						<Popover open={fatherOpen} onOpenChange={setFatherOpen}>
+							<PopoverTrigger asChild>
+								<Button
+									variant="outline"
+									role="combobox"
+									aria-expanded={fatherOpen}
+									className="w-full justify-between"
+								>
+									{selectedFather || 'Selecione o pai...'}
+									<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className="w-full p-0" align="start">
+								<Command>
+									<CommandInput
+										placeholder="Procurar pai..."
+										value={inputValue}
+										onValueChange={setInputValue}
+									/>
+									<CommandList>
+										<CommandGroup>
+											{parents.males?.map((father) => (
+												<CommandItem
+													key={father.name}
+													value={father.name}
+													onSelect={() => {
+														handleSelect(
+															setSelectedFather,
+															father.name,
+															setFatherOpen,
+															true,
+															true,
+														)
+														field.onChange(father.name)
+													}}
+												>
+													<Check
+														className={cn(
+															'mr-2 h-4 w-4',
+															selectedFather === father.name
+																? 'opacity-100'
+																: 'opacity-0',
+														)}
+													/>
+													{father.name}
+												</CommandItem>
+											))}
+											{inputValue && (
+												<CommandItem
+													value={inputValue}
+													onSelect={() => {
+														handleSelect(
+															setSelectedFather,
+															inputValue,
+															setFatherOpen,
+															false,
+															true,
+														)
+														field.onChange(inputValue)
+													}}
+												>
+													Adicionar "{inputValue}"
+												</CommandItem>
+											)}
+										</CommandGroup>
+									</CommandList>
+								</Command>
+							</PopoverContent>
+							{error && (
+								<span className="my-2 text-red-500">
+									Nome do pai é obrigatorio
+								</span>
+							)}
+						</Popover>
+					)}
+				/>
 			</div>
 
+			{/* Combo box for Mother */}
 			<div className="mb-8 flex flex-col gap-4">
-				{/* Combo box for Mother */}
-				<Popover open={motherOpen} onOpenChange={setMotherOpen}>
-					<PopoverTrigger asChild>
-						<Button
-							variant="outline"
-							role="combobox"
-							aria-expanded={motherOpen}
-							className="w-full justify-between"
-						>
-							{selectedMother || 'Selecione a mãe...'}
-							<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent className="w-full p-0" align="start">
-						<Command>
-							<CommandInput
-								placeholder="Procurar mãe..."
-								value={inputValue}
-								onValueChange={setInputValue}
-							/>
-							<CommandList>
-								<CommandGroup>
-									{parents.females?.map((mother) => (
-										<CommandItem
-											key={mother.name}
-											value={mother.name}
-											onSelect={() =>
-												handleSelect(
-													setSelectedMother,
-													mother.name,
-													setMotherOpen,
-													true,
-													false,
-												)
-											}
-										>
-											<Check
-												className={cn(
-													'mr-2 h-4 w-4',
-													selectedMother === mother.name
-														? 'opacity-100'
-														: 'opacity-0',
-												)}
-											/>
-											{mother.name}
-										</CommandItem>
-									))}
-									{inputValue && (
-										<CommandItem
-											value={inputValue}
-											onSelect={() =>
-												handleSelect(
-													setSelectedMother,
-													inputValue,
-													setMotherOpen,
-													false,
-													false,
-												)
-											}
-										>
-											Adicionar "{inputValue}"
-										</CommandItem>
-									)}
-								</CommandGroup>
-							</CommandList>
-						</Command>
-					</PopoverContent>
-				</Popover>
-				{errors.mother && (
-					<span className="my-2 text-red-500">Nome do mãe é obrigatorio </span>
-				)}
+				<Controller
+					name="mother"
+					control={control}
+					render={({ field, fieldState: { error } }) => (
+						<Popover open={motherOpen} onOpenChange={setMotherOpen}>
+							<PopoverTrigger asChild>
+								<Button
+									variant="outline"
+									role="combobox"
+									aria-expanded={motherOpen}
+									className="w-full justify-between"
+								>
+									{selectedMother || 'Selecione a mãe...'}
+									<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className="w-full p-0" align="start">
+								<Command>
+									<CommandInput
+										placeholder="Procurar mãe..."
+										value={inputValue}
+										onValueChange={setInputValue}
+									/>
+									<CommandList>
+										<CommandGroup>
+											{parents.females?.map((mother) => (
+												<CommandItem
+													key={mother.name}
+													value={mother.name}
+													onSelect={() => {
+														handleSelect(
+															setSelectedMother,
+															mother.name,
+															setMotherOpen,
+															true,
+															false,
+														)
+														field.onChange(mother.name)
+													}}
+												>
+													<Check
+														className={cn(
+															'mr-2 h-4 w-4',
+															selectedMother === mother.name
+																? 'opacity-100'
+																: 'opacity-0',
+														)}
+													/>
+													{mother.name}
+												</CommandItem>
+											))}
+											{inputValue && (
+												<CommandItem
+													value={inputValue}
+													onSelect={() => {
+														handleSelect(
+															setSelectedMother,
+															inputValue,
+															setMotherOpen,
+															false,
+															false,
+														)
+														field.onChange(inputValue)
+													}}
+												>
+													Adicionar "{inputValue}"
+												</CommandItem>
+											)}
+										</CommandGroup>
+									</CommandList>
+								</Command>
+							</PopoverContent>
+							{error && (
+								<span className="my-2 text-red-500">
+									Nome da mãe é obrigatorio
+								</span>
+							)}
+						</Popover>
+					)}
+				/>
 			</div>
 		</>
 	)
