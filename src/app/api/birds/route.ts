@@ -6,19 +6,54 @@ import { db } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
-		const response = await db.bird.findMany({
+		const { searchParams } = new URL(req.url)
+
+		const ring = searchParams.get('ring') ?? ''
+		const birdName = searchParams.get('birdName') ?? ''
+		const page = parseInt(searchParams.get('page') ?? '1', 10)
+		const limit = parseInt(searchParams.get('limit') ?? '10', 10)
+
+		const skip = (page - 1) * limit
+
+		const birds = await db.bird.findMany({
+			where: {
+				ring: {
+					startsWith: ring,
+				},
+				name: {
+					startsWith: birdName,
+				},
+			},
 			orderBy: {
 				createdAt: 'asc',
 			},
+			skip,
+			take: limit,
 		})
 
-		return Response.json({ birds: response })
-	} catch (error) {
-		console.log(error)
+		const totalBirds = await db.bird.count({
+			where: {
+				ring: {
+					startsWith: ring,
+				},
+				name: {
+					startsWith: birdName,
+				},
+			},
+		})
 
-		return Response.json({ message: 'algo deu errado' })
+		return NextResponse.json({
+			birds,
+			page,
+			totalPages: Math.ceil(totalBirds / limit),
+			totalBirds,
+		})
+	} catch (error) {
+		console.error(error)
+
+		return NextResponse.json({ message: 'algo deu errado' }, { status: 500 })
 	}
 }
 

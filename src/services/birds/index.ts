@@ -38,9 +38,26 @@ export const fetchBirdsByGender = async (
 		return { birds: undefined as never }
 	}
 }
-export const fetchAllBirds = async (): Promise<FetchBirdsResponse> => {
+export const fetchAllBirds = async ({
+	ring = '',
+	birdName = '',
+	page = 1,
+	limit = 10,
+}: {
+	ring?: string
+	birdName?: string
+	page?: number
+	limit?: number
+}): Promise<FetchBirdsResponse> => {
 	try {
-		const response = await api('/birds', {
+		const queryParams = new URLSearchParams({
+			ring,
+			birdName,
+			page: String(page),
+			limit: String(limit),
+		})
+
+		const response = await api(`/birds?${queryParams.toString()}`, {
 			next: {
 				tags: ['birds'],
 			},
@@ -55,9 +72,11 @@ export const fetchAllBirds = async (): Promise<FetchBirdsResponse> => {
 			return { birds: undefined as never }
 		}
 	} catch (error) {
+		console.error('Error fetching birds:', error)
 		return { birds: undefined as never }
 	}
 }
+
 interface UpdateBirdBody extends Prisma.BirdUpdateInput {
 	id: number
 }
