@@ -1,6 +1,10 @@
 import { fetchGenealogy } from '@/services/genealogy'
 
 import { TreeItem } from './components/TreeItem'
+import { Button } from '@/components/ui/button'
+import { Undo2 } from 'lucide-react'
+import Link from 'next/link'
+import { BackButton } from './components/BackButton'
 
 export interface TreeNodeProps {
 	label: string
@@ -21,7 +25,10 @@ const page = async ({ params }: { params: { 'passaro-id': string } }) => {
 	}
 
 	return (
-		<main className=" flex flex-col overflow-x-scroll px-4 py-10">
+		<main className=" flex flex-col overflow-x-scroll px-4 pb-10 pt-5">
+			<div className=" mb-6">
+				<BackButton />
+			</div>
 			<section className="mx-auto mb-20 w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-semibold text-gray-800">
 					Detalhes do Pássaro

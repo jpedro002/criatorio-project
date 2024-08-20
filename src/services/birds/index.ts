@@ -8,6 +8,9 @@ import { api } from '../api'
 
 interface BirdsResponseSuccess {
 	birds: GetBirdsReturnType[]
+	page: number
+	totalPages: number
+	totalBirds: number
 }
 
 interface BirdsResponseError {
@@ -17,10 +20,20 @@ interface BirdsResponseError {
 type FetchBirdsResponse = BirdsResponseSuccess | BirdsResponseError
 
 export const fetchBirdsByGender = async (
-	gender?: 'machos' | 'femeas' | '',
+	gender: 'machos' | 'femeas' | '' = '',
+	name: string = '',
+	page: number = 1,
+	limit: number = 10,
 ): Promise<FetchBirdsResponse> => {
 	try {
-		const response = await api('/birds/gender?gender=' + gender, {
+		const queryParams = new URLSearchParams({
+			gender: gender[0],
+			name,
+			page: String(page),
+			limit: String(limit),
+		})
+
+		const response = await api(`/birds/gender?${queryParams.toString()}`, {
 			next: {
 				tags: ['birds'],
 			},
@@ -38,6 +51,7 @@ export const fetchBirdsByGender = async (
 		return { birds: undefined as never }
 	}
 }
+
 export const fetchAllBirds = async ({
 	ring = '',
 	birdName = '',
