@@ -16,10 +16,6 @@ const page = async ({
 	params: { genero: string }
 	searchParams?: { [key: string]: string | string[] | undefined }
 }) => {
-	console.log(genero)
-
-	console.log(searchParams)
-
 	const page = searchParams?.page ? parseInt(searchParams.page as string) : 1
 	const birdName = searchParams?.birdName || ''
 

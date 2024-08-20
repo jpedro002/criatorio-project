@@ -35,12 +35,7 @@ export const FormGenealogy = (defaultValues: GenealogyFormProps) => {
 
 	const router = useRouter()
 
-	useEffect(() => {
-		console.log(errors, 'errors')
-	}, [errors])
-
 	const onSubmit = async (data: GenealogyType) => {
-		console.log(data, 'raw data')
 		const success = await updateGenealogy({ id, ...data })
 
 		if (success) {

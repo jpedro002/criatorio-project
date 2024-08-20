@@ -13,8 +13,6 @@ export const useFillGenealogy = () => {
 			return
 		}
 
-		console.log(genealogy.paternalGrandfather)
-
 		setValue('father', bird.name)
 		setValue('paternalGrandfather', bird.father)
 		setValue('paternalGrandmother', bird.mother)
@@ -63,8 +61,6 @@ export const useFillGenealogy = () => {
 			console.error(message)
 			return
 		}
-
-		console.log(genealogy.maternalGrandfather)
 
 		setValue('mother', bird.name)
 		setValue('maternalGrandfather', bird.father)

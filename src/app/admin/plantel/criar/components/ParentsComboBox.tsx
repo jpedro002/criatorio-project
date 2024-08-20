@@ -59,8 +59,6 @@ export function GenealogyCombobox() {
 		setOpen(false)
 
 		if (fetchGenealogy) {
-			console.log('Fetching genealogy for', value)
-
 			const selectedBird = parents[isFather ? 'males' : 'females'].find(
 				({ name }) => name === value,
 			)

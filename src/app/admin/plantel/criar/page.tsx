@@ -42,7 +42,6 @@ const page = () => {
 		if (redirect && success) {
 			router.replace('/admin/plantel')
 		}
-		console.log(data)
 	}
 
 	return (
