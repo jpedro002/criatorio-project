@@ -4,8 +4,14 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 import { MainCarousel } from './components/MainCarousel'
+import { Metadata } from 'next'
 
 export const dynamic = 'force-static'
+
+export const metadata: Metadata = {
+	description:
+		'Descubra as melhores aves para criação comercial. Nosso criatório oferece uma ampla variedade de pássaros saudáveis e bem cuidados, ideais para reprodução e criação de qualidade.',
+}
 
 // TODO: refact this shit
 
