@@ -2,6 +2,7 @@ import './globals.css'
 
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { Toaster } from '@/components/ToastSonner'
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 			<body className={(poppins.className, inter.variable)}>
 				{children}
 				<Toaster richColors />
+				<SpeedInsights />
 			</body>
 		</html>
 	)
