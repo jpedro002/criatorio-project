@@ -15,6 +15,9 @@ interface BirdsResponseSuccess {
 
 interface BirdsResponseError {
 	birds?: never
+	page: never
+	totalPages: never
+	totalBirds: never
 }
 
 type FetchBirdsResponse = BirdsResponseSuccess | BirdsResponseError
@@ -45,10 +48,10 @@ export const fetchBirdsByGender = async (
 		if ('birds' in data) {
 			return data as BirdsResponseSuccess
 		} else {
-			return { birds: undefined as never }
+			return {} as BirdsResponseError
 		}
 	} catch (error) {
-		return { birds: undefined as never }
+		return {} as BirdsResponseError
 	}
 }
 
@@ -83,11 +86,11 @@ export const fetchAllBirds = async ({
 		if ('birds' in data) {
 			return data as BirdsResponseSuccess
 		} else {
-			return { birds: undefined as never }
+			return {} as BirdsResponseError
 		}
 	} catch (error) {
 		console.error('Error fetching birds:', error)
-		return { birds: undefined as never }
+		return {} as BirdsResponseError
 	}
 }
 

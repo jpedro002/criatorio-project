@@ -5,9 +5,16 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { fetchBirdsByGender } from '@/services/birds'
 import { SearchFilterApp } from './components/SearchFilterApp'
+import { Metadata } from 'next'
+import { Pagination } from '@/components/Pagination'
 
 // TODO choice background color for the page bg-slate-300 sugestion
 // TODO create page selector
+
+export const metadata: Metadata = {
+	description:
+		'Veja a lista completa de nossos pássaros, com links para suas árvores genealógicas detalhadas. Explore as linhagens e conheça a história de cada ave disponível em nosso criatório.',
+}
 
 const page = async ({
 	params: { genero },
@@ -19,10 +26,11 @@ const page = async ({
 	const page = searchParams?.page ? parseInt(searchParams.page as string) : 1
 	const birdName = searchParams?.birdName || ''
 
-	const { birds } = await fetchBirdsByGender(
+	const { birds, totalPages } = await fetchBirdsByGender(
 		genero as 'machos' | 'femeas',
 		birdName as string,
 		page,
+		1
 	)
 
 	const formatDate = (birth: Date) =>
@@ -35,13 +43,11 @@ const page = async ({
 		"
 		>
 			<SearchFilterApp />
-
 			{birds?.length === 0 && (
 				<h1 className="col-span-full w-full justify-self-center text-center">
 					Nenhum pássaro encontrado
 				</h1>
 			)}
-
 			<section
 				className=" mx-auto  flex h-full  w-full max-w-[1500px] grid-cols-2
 			flex-col content-start  justify-center gap-8   sm:grid
@@ -69,6 +75,7 @@ const page = async ({
 					</Link>
 				))}
 			</section>
+			<Pagination totalPages={totalPages} />
 		</main>
 	)
 }
