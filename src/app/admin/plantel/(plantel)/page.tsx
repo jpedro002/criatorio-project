@@ -12,6 +12,7 @@ import {
 import { fetchAllBirds } from '@/services/birds'
 import { TableLine } from '../components/TableLine'
 import { SearchForm } from '../components/SearchForm'
+import { Pagination } from '@/components/Pagination'
 
 const page = async ({
 	searchParams,
@@ -23,7 +24,7 @@ const page = async ({
 	const page = parseInt(searchParams.page ?? '1', 10)
 	const limit = parseInt(searchParams.limit ?? '10', 10)
 
-	const { birds } = await fetchAllBirds({
+	const { birds, totalPages } = await fetchAllBirds({
 		ring,
 		birdName,
 		page,
@@ -31,7 +32,7 @@ const page = async ({
 	})
 
 	return (
-		<div className="flex w-full flex-col gap-8 p-6">
+		<div className="flex h-full w-full flex-col gap-8 p-6 md:h-full md:items-start">
 			<header
 				className=" flex w-full flex-col-reverse flex-wrap items-center
 			  justify-between gap-4 rounded-lg p-4 lg:flex-row "
@@ -43,7 +44,7 @@ const page = async ({
 					</Button>
 				</div>
 			</header>
-			<Table>
+			<Table className="abc overflow-visible">
 				<TableHeader>
 					<TableRow>
 						<TableHead className="w-[160px] min-w-[160px]">anilha</TableHead>
@@ -74,6 +75,7 @@ const page = async ({
 						))}
 				</TableBody>
 			</Table>
+			<Pagination totalPages={totalPages} />
 		</div>
 	)
 }

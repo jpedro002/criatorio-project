@@ -29,8 +29,8 @@ export function Pagination({ totalPages }: { totalPages: number }) {
 	)
 
 	return (
-		<PaginationComponent>
-			<PaginationContent>
+		<PaginationComponent className="mt-auto">
+			<PaginationContent className="flex-wrap">
 				<PaginationItem>
 					<PaginationPrevious
 						href={
@@ -47,16 +47,23 @@ export function Pagination({ totalPages }: { totalPages: number }) {
 						1
 					</PaginationLink>
 				</PaginationItem>
-				<PaginationItem>
-					<PaginationLink href={`?` + createQueryString('page', '2')}>
-						2
-					</PaginationLink>
-				</PaginationItem>
-				<PaginationItem>
-					<PaginationLink href={`?` + createQueryString('page', '3')}>
-						3
-					</PaginationLink>
-				</PaginationItem>
+				{totalPages >= 2 && (
+					<PaginationItem>
+						<PaginationLink
+							href={`?` + createQueryString('page', '2')}
+							aria-disabled={totalPages < 2}
+						>
+							2
+						</PaginationLink>
+					</PaginationItem>
+				)}
+				{totalPages >= 3 && (
+					<PaginationItem>
+						<PaginationLink href={`?` + createQueryString('page', '3')}>
+							3
+						</PaginationLink>
+					</PaginationItem>
+				)}
 				<PaginationItem>
 					<PaginationEllipsis />
 				</PaginationItem>

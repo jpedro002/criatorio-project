@@ -30,7 +30,6 @@ const page = async ({
 		genero as 'machos' | 'femeas',
 		birdName as string,
 		page,
-		1
 	)
 
 	const formatDate = (birth: Date) =>
@@ -49,9 +48,9 @@ const page = async ({
 				</h1>
 			)}
 			<section
-				className=" mx-auto  flex h-full  w-full max-w-[1500px] grid-cols-2
-			flex-col content-start  justify-center gap-8   sm:grid
-			3md:grid-cols-3 xl:grid-cols-4
+				className=" mx-auto  mb-8 flex  h-full w-full max-w-[1500px]
+			grid-cols-2 flex-col  content-start justify-center   gap-8
+			sm:grid 3md:grid-cols-3 xl:grid-cols-4
 		"
 			>
 				{birds?.map((item: any) => (

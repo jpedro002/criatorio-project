@@ -6,7 +6,7 @@ import { SheetHeader } from '@/components/SheetHeader'
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
 	return (
-		<div className="flex h-full min-h-screen flex-col  md:flex-row">
+		<div className="flex h-full min-h-screen grid-cols-[min-content_1fr] grid-rows-1  flex-col md:grid">
 			<header className="flex items-center justify-between bg-gray-900 px-4 py-2 text-white md:hidden ">
 				<SheetHeader isAdminSheet>
 					<NavLink href={'/admin/plantel'} className="pl-6 text-lg text-black">
